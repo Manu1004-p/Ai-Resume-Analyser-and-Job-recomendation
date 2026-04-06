@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<title>Welcome</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
 <div class="fullscreen">
+<h1>AI Resume ATS</h1>
 
-    <h1>AI Resume ATS</h1>
+<div class="slideshow">
+<div class="slide active">AI Powered Screening</div>
+<div class="slide">Smart Skill Matching</div>
+<div class="slide">Instant Shortlisting</div>
+</div>
 
-    <div class="slideshow">
-        <div class="slide active">AI Powered Screening</div>
-        <div class="slide">Smart Skill Matching</div>
-        <div class="slide">Instant Shortlisting</div>
-    </div>
-
-    <!-- GO TO DASHBOARD -->
-    <a href="/dashboard" class="primary-btn">Get Started →</a>
-
+<a href="/dashboard" class="primary-btn">Get Started →</a>
 </div>
 
 <script>
@@ -26,9 +23,9 @@ let slides = document.querySelectorAll(".slide");
 let index = 0;
 
 setInterval(() => {
-    slides[index].classList.remove("active");
-    index = (index + 1) % slides.length;
-    slides[index].classList.add("active");
+slides[index].classList.remove("active");
+index = (index + 1) % slides.length;
+slides[index].classList.add("active");
 }, 2500);
 </script>
 

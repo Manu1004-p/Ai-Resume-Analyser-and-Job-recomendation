@@ -7,7 +7,6 @@
 <body>
 
 <div class="fullscreen">
-
 <div class="result-wrapper">
 
 <h2>Resume Analysis Result</h2>
@@ -23,9 +22,7 @@
                 stroke="#00ffc3"
                 stroke-width="20"
                 fill="none"
-                stroke-linecap="round"
-                stroke-dasharray="817"
-                stroke-dashoffset="817"/>
+                stroke-linecap="round"/>
     </svg>
     <div id="percentageText" class="percentage-text">0%</div>
 </div>
@@ -35,8 +32,8 @@
 <div class="result-grid">
 
 <div class="card">
-<h4>Experience</h4>
-<p>{{ result.resume_exp }} Years</p>
+<h4>Score</h4>
+<p>{{ result.overall }}%</p>
 </div>
 
 <div class="card success">
@@ -55,7 +52,7 @@
 
 </div>
 
-<a href="/analyze" class="primary-btn" style="margin-top:40px;">Analyze Another</a>
+<a href="/analyze" class="primary-btn">Analyze Another</a>
 
 </div>
 </div>

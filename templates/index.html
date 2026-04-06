@@ -3,6 +3,35 @@
 <head>
 <title>Analyze</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+/* 🔥 Improve textarea UI */
+textarea {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    resize: none;
+    outline: none;
+}
+
+/* Add spacing */
+.form-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* File text style */
+.file-name {
+    font-size: 14px;
+    margin-top: 5px;
+    color: #ccc;
+}
+</style>
+
 </head>
 <body>
 
@@ -12,20 +41,40 @@
 
 <h2>Upload Resume</h2>
 
+<!-- FILE INPUT -->
 <label class="custom-file">
-<input type="file" name="resume" required>
-<span>Select Resume File</span>
+    <input type="file" name="resume" id="resumeInput" required>
+    <span id="fileLabel">Select Resume File</span>
 </label>
 
-<input type="text" name="skills" placeholder="Required Skills" required>
-<input type="number" name="experience" placeholder="Required Experience" required>
-<input type="text" name="education" placeholder="Required Education" required>
+<div id="fileName" class="file-name"></div>
+
+<!-- JOB DESCRIPTION -->
+<textarea name="job_description"
+          placeholder="Paste full Job Description here..."
+          required></textarea>
 
 <button class="primary-btn">Analyze Resume</button>
 
 </form>
 
 </div>
+
+<script>
+// 🔥 Show selected file name
+const input = document.getElementById("resumeInput");
+const fileNameDiv = document.getElementById("fileName");
+const label = document.getElementById("fileLabel");
+
+input.addEventListener("change", function() {
+    if (this.files.length > 0) {
+        const fileName = this.files[0].name;
+
+        fileNameDiv.innerText = "Selected: " + fileName;
+        label.innerText = "Change File";
+    }
+});
+</script>
 
 </body>
 </html>

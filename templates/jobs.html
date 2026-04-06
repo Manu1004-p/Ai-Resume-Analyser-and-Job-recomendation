@@ -12,8 +12,8 @@
 <h1>AI Job Recommendation</h1>
 
 <form method="POST" enctype="multipart/form-data">
-    <input type="file" name="resume" required>
-    <button class="primary-btn">Upload Resume & Get Jobs</button>
+<input type="file" name="resume" required>
+<button class="primary-btn">Upload Resume & Get Jobs</button>
 </form>
 
 {% if skills %}
@@ -23,10 +23,10 @@
 
 {% for job in jobs %}
 <div class="card">
-    <h2>{{ job.title }}</h2>
-    <p><b>{{ job.company }}</b></p>
-    <p>{{ job.location }}</p>
-    <a href="{{ job.link }}" target="_blank" class="primary-btn">Apply</a>
+<h2>{{ job.title }}</h2>
+<p>{{ job.company }}</p>
+<p>{{ job.location }}</p>
+<a href="{{ job.link }}" target="_blank" class="primary-btn">Apply</a>
 </div>
 {% endfor %}
 

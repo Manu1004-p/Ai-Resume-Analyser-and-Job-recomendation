@@ -19,11 +19,7 @@ def fetch_jobs_from_resume(resume_text):
         if skill in resume_text:
             detected_skills.append(skill)
 
-    # fallback
-    if not detected_skills:
-        query = "jobs"
-    else:
-        query = " ".join(detected_skills[:5])
+    query = " ".join(detected_skills[:5]) if detected_skills else "jobs"
 
     url = "https://api.adzuna.com/v1/api/jobs/in/search/1"
 
@@ -48,3 +44,4 @@ def fetch_jobs_from_resume(resume_text):
         })
 
     return jobs, detected_skills
+
