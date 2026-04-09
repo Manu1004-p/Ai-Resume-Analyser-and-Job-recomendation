@@ -6,26 +6,48 @@
 </head>
 <body>
 
-<div class="fullscreen">
-<h1>AI Resume ATS</h1>
+<div class="container" style="
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+">
 
-<div class="slideshow">
-<div class="slide active">AI Powered Screening</div>
-<div class="slide">Smart Skill Matching</div>
-<div class="slide">Instant Shortlisting</div>
-</div>
+    <!-- HEADER -->
+    <header>
+        <h1 style="font-size: 64px;">AI Resume ATS</h1>
+        <p class="subtitle">AI Powered Hiring Assistant</p>
+    </header>
 
-<a href="/dashboard" class="primary-btn">Get Started →</a>
+    <!-- SLIDESHOW -->
+    <div style="margin: 40px 0; font-size: 26px; font-weight: 600;">
+        <div class="slide">AI Powered Screening</div>
+        <div class="slide">Smart Skill Matching</div>
+        <div class="slide">Instant Shortlisting</div>
+    </div>
+
+    <!-- BUTTON -->
+    <a href="/dashboard" class="primary-btn" style="font-size: 18px; padding: 15px 35px;">
+        Get Started →
+    </a>
+
 </div>
 
 <script>
 let slides = document.querySelectorAll(".slide");
 let index = 0;
 
+// Initialize
+slides.forEach((slide, i) => {
+    slide.style.display = i === 0 ? "block" : "none";
+});
+
 setInterval(() => {
-slides[index].classList.remove("active");
-index = (index + 1) % slides.length;
-slides[index].classList.add("active");
+    slides[index].style.display = "none";
+    index = (index + 1) % slides.length;
+    slides[index].style.display = "block";
 }, 2500);
 </script>
 

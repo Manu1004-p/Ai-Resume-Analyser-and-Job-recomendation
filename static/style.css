@@ -1,165 +1,266 @@
-/* GOOGLE FONT */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
 
-body {
+/* RESET */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY */
+body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
+    color: #fff;
 }
 
 /* FULLSCREEN CENTER */
 .fullscreen {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-/* BIG HEADINGS */
+/* CONTAINER */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+/* HEADER */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
 h1 {
-    font-size: 65px;
+    font-size: 48px;
     font-weight: 800;
-    margin-bottom: 20px;
 }
 
-h2 {
-    font-size: 45px;
-    font-weight: 600;
+.subtitle {
+    opacity: 0.7;
+    margin-top: 10px;
 }
 
-h3 {
-    font-size: 28px;
+/* FORM SECTION */
+.form-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+form {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* INPUT */
+input[type="file"],
+textarea {
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #fff;
+    color: #000;
+    width: 250px;
 }
 
 /* BUTTON */
 .primary-btn {
-    padding: 15px 40px;
-    background: #00ffc3;
-    color: black;
-    font-size: 20px;
-    border-radius: 40px;
-    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: none;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
     font-weight: 600;
+    cursor: pointer;
     transition: 0.3s;
+    text-decoration: none;
 }
 
 .primary-btn:hover {
-    transform: scale(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
-/* SLIDESHOW */
-.slideshow {
-    font-size: 40px;
-    margin-bottom: 40px;
-    font-weight: 600;
+/* JOB GRID */
+.job-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
 }
 
-.slide {
-    display: none;
-}
-
-.slide.active {
-    display: block;
-    animation: fade 1s ease-in-out;
-}
-
-@keyframes fade {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-
-/* FORM */
-.form-card {
-    width: 500px;
-    animation: slideUp 1s ease;
-}
-
-@keyframes slideUp {
-    from {transform: translateY(100px); opacity: 0;}
-    to {transform: translateY(0); opacity: 1;}
-}
-
-input {
-    width: 100%;
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: 10px;
-    border: none;
-    font-size: 18px;
-}
-
-/* FILE BUTTON */
-.custom-file {
-    position: relative;
-}
-
-.custom-file input {
-    opacity: 0;
-    position: absolute;
-    width: 100%;
-    height: 50px;
-}
-
-.custom-file span {
-    display: block;
-    background: #00ffc3;
-    color: black;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 18px;
-    text-align: center;
-}
-
-/* RESULT PAGE */
-.result-wrapper {
-    width: 90%;
-    max-width: 1200px;
-    text-align: center;
-}
-
-/* CIRCLE */
-.progress-wrapper {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    margin: 30px auto;
-}
-
-.progress-wrapper svg {
-    transform: rotate(-90deg);
-}
-
-.percentage-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 55px;
-    font-weight: bold;
-}
-
-/* RESULT GRID */
-.result-grid {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-top: 40px;
-}
-
+/* CARD */
 .card {
-    width: 300px;
-    padding: 30px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 15px;
-    font-size: 20px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    padding: 25px;
+    border-radius: 20px;
     transition: 0.3s;
 }
 
 .card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
-.success { border-top: 5px solid #00ffc3; }
-.danger { border-top: 5px solid #ff4d4d; }
+/* TEXT */
+.card h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #00c6ff;
+}
+
+.company {
+    font-weight: 600;
+}
+
+.location {
+    opacity: 0.7;
+    margin-bottom: 15px;
+}
+
+/* ============================= */
+/* RESULT PAGE */
+/* ============================= */
+
+.result-wrapper {
+    width: 90%;
+    max-width: 1000px;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(15px);
+    text-align: center;
+}
+
+/* TITLE */
+.title {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+/* CHART */
+.chart-section {
+    position: relative;
+    width: 260px;
+    margin: 30px auto;
+}
+
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* PERCENT CENTER */
+.percentage-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 34px;
+    font-weight: 800;
+}
+
+/* STATUS */
+.status {
+    margin: 20px 0;
+    font-size: 22px;
+    color: #00ffc3;
+}
+
+/* RESULT GRID */
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+/* SCORE TEXT */
+.big-score {
+    font-size: 42px;
+    font-weight: 800;
+    color: #00ffc3;
+}
+
+/* TAG CONTAINER */
+.tags {
+    margin-top: 10px;
+}
+
+/* TAG */
+.tag {
+    display: inline-block;
+    padding: 8px 14px;
+    margin: 6px;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* MATCHED */
+.success {
+    border-left: 5px solid #00ff88;
+}
+
+.success-tag {
+    background: #00ff88;
+    color: #000;
+}
+
+/* MISSING */
+.danger {
+    border-left: 5px solid #ff4d4d;
+}
+
+.danger-tag {
+    background: #ff4d4d;
+    color: #fff;
+}
+
+/* EMPTY TEXT */
+.card p {
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+/* BUTTON CENTER */
+.primary-btn {
+    display: inline-block;
+    margin-top: 30px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .title {
+        font-size: 30px;
+    }
+
+    form {
+        flex-direction: column;
+    }
+
+    input[type="file"],
+    textarea {
+        width: 100%;
+    }
+
+    .chart-section {
+        width: 200px;
+    }
+
+    .percentage-overlay {
+        font-size: 26px;
+    }
+}

@@ -3,51 +3,57 @@
 <head>
     <title>Result</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- ✅ Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
 <div class="fullscreen">
 <div class="result-wrapper">
 
-<h2>Resume Analysis Result</h2>
+<h1 class="title">Resume Analysis</h1>
 
-<div class="progress-wrapper">
-    <svg width="300" height="300">
-        <circle cx="150" cy="150" r="130"
-                stroke="#333"
-                stroke-width="20"
-                fill="none"/>
-        <circle id="progressCircle"
-                cx="150" cy="150" r="130"
-                stroke="#00ffc3"
-                stroke-width="20"
-                fill="none"
-                stroke-linecap="round"/>
-    </svg>
-    <div id="percentageText" class="percentage-text">0%</div>
+<!-- ✅ CHART -->
+<div class="chart-section">
+    <canvas id="scoreChart"></canvas>
 </div>
 
-<h3>Status: {{ result.status }}</h3>
+<h2 class="status">Status: {{ result.status }}</h2>
 
+<!-- ✅ RESULT GRID -->
 <div class="result-grid">
 
 <div class="card">
-<h4>Score</h4>
-<p>{{ result.overall }}%</p>
+    <h3>Overall Score</h3>
+    <p class="big-score">{{ result.overall }}%</p>
 </div>
 
 <div class="card success">
-<h4>Matched Skills</h4>
-{% for skill in result.matched_skills %}
-<p>{{ skill }}</p>
-{% endfor %}
+    <h3>Matched Skills</h3>
+    <div class="tags">
+    {% if result.matched_skills %}
+        {% for skill in result.matched_skills %}
+            <span class="tag success-tag">{{ skill }}</span>
+        {% endfor %}
+    {% else %}
+        <p>No matched skills</p>
+    {% endif %}
+    </div>
 </div>
 
 <div class="card danger">
-<h4>Missing Skills</h4>
-{% for skill in result.missing_skills %}
-<p>{{ skill }}</p>
-{% endfor %}
+    <h3>Missing Skills</h3>
+    <div class="tags">
+    {% if result.missing_skills %}
+        {% for skill in result.missing_skills %}
+            <span class="tag danger-tag">{{ skill }}</span>
+        {% endfor %}
+    {% else %}
+        <p>No missing skills 🎉</p>
+    {% endif %}
+    </div>
 </div>
 
 </div>
@@ -57,16 +63,64 @@
 </div>
 </div>
 
+<!-- ✅ SCRIPT -->
 <script>
 let percent = {{ result.overall }};
-let circle = document.getElementById("progressCircle");
-let text = document.getElementById("percentageText");
 
-let radius = 130;
-let circumference = 2 * Math.PI * radius;
+// 🎯 Canvas Context
+const ctx = document.getElementById('scoreChart').getContext('2d');
 
-circle.style.strokeDasharray = circumference;
+// 🎯 Gradient
+const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+gradient.addColorStop(0, "#00ffc3");
+gradient.addColorStop(1, "#0072ff");
 
+// 🎯 Center Text Plugin
+const centerTextPlugin = {
+    id: 'centerText',
+    beforeDraw(chart) {
+        const { width, height, ctx } = chart;
+
+        ctx.restore();
+        let fontSize = (height / 5).toFixed(2);
+        ctx.font = fontSize + "px Poppins";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#ffffff";
+
+        let text = chart.config.data.datasets[0].data[0] + "%";
+        let textX = Math.round((width - ctx.measureText(text).width) / 2);
+        let textY = height / 2;
+
+        ctx.fillText(text, textX, textY);
+        ctx.save();
+    }
+};
+
+// 🎯 Chart Init
+let chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        datasets: [{
+            data: [0, 100],
+            backgroundColor: [gradient, "#1a1a1a"],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        cutout: '75%',
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        },
+        animation: {
+            duration: 1500,
+            easing: 'easeOutQuart'
+        }
+    },
+    plugins: [centerTextPlugin]
+});
+
+// 🎯 RUNNER ANIMATION
 let current = 0;
 
 let interval = setInterval(() => {
@@ -74,11 +128,12 @@ let interval = setInterval(() => {
         clearInterval(interval);
     } else {
         current++;
-        text.innerText = current + "%";
-        let offset = circumference - (current / 100) * circumference;
-        circle.style.strokeDashoffset = offset;
+        chart.data.datasets[0].data[0] = current;
+        chart.data.datasets[0].data[1] = 100 - current;
+        chart.update();
     }
-}, 10);
+}, 15);
+
 </script>
 
 </body>

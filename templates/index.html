@@ -5,63 +5,109 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 <style>
-/* 🔥 Improve textarea UI */
+/* CENTER FULL PAGE */
+.page-center {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* FORM CARD (glass style like dashboard cards) */
+.form-card {
+    width: 500px;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* TITLE */
+.form-card h2 {
+    text-align: center;
+    color: #00c6ff;
+}
+
+/* FILE INPUT */
+.custom-file {
+    background: rgba(255,255,255,0.1);
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.custom-file:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.custom-file input {
+    display: none;
+}
+
+/* TEXTAREA */
 textarea {
     width: 100%;
     padding: 15px;
-    margin-top: 15px;
     border-radius: 12px;
     border: none;
-    font-size: 16px;
+    font-size: 15px;
     resize: none;
     outline: none;
+    min-height: 140px;
 }
 
-/* Add spacing */
-.form-card {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* File text style */
+/* FILE NAME TEXT */
 .file-name {
-    font-size: 14px;
-    margin-top: 5px;
+    font-size: 13px;
     color: #ccc;
+    text-align: center;
+}
+
+/* BUTTON ALIGN */
+.primary-btn {
+    width: 100%;
+    text-align: center;
 }
 </style>
 
 </head>
+
 <body>
 
-<div class="fullscreen">
+<div class="container page-center">
 
-<form method="POST" enctype="multipart/form-data" class="form-card">
+    <form method="POST" enctype="multipart/form-data" class="form-card">
 
-<h2>Upload Resume</h2>
+        <h2>Upload Resume</h2>
 
-<!-- FILE INPUT -->
-<label class="custom-file">
-    <input type="file" name="resume" id="resumeInput" required>
-    <span id="fileLabel">Select Resume File</span>
-</label>
+        <!-- FILE INPUT -->
+        <label class="custom-file">
+            <input type="file" name="resume" id="resumeInput" required>
+            <span id="fileLabel">Select Resume File</span>
+        </label>
 
-<div id="fileName" class="file-name"></div>
+        <div id="fileName" class="file-name"></div>
 
-<!-- JOB DESCRIPTION -->
-<textarea name="job_description"
-          placeholder="Paste full Job Description here..."
-          required></textarea>
+        <!-- JOB DESCRIPTION -->
+        <textarea name="job_description"
+                  placeholder="Paste full Job Description here..."
+                  required></textarea>
 
-<button class="primary-btn">Analyze Resume</button>
+        <button class="primary-btn">Analyze Resume</button>
 
-</form>
+    </form>
 
 </div>
 
 <script>
-// 🔥 Show selected file name
+// Show selected file name
 const input = document.getElementById("resumeInput");
 const fileNameDiv = document.getElementById("fileName");
 const label = document.getElementById("fileLabel");
@@ -69,7 +115,6 @@ const label = document.getElementById("fileLabel");
 input.addEventListener("change", function() {
     if (this.files.length > 0) {
         const fileName = this.files[0].name;
-
         fileNameDiv.innerText = "Selected: " + fileName;
         label.innerText = "Change File";
     }

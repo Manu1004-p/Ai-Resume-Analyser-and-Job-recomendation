@@ -10,53 +10,99 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 80px;
+            gap: 40px;
+            flex-wrap: wrap;
         }
 
         .option-btn {
-            width: 350px;
-            height: 220px;
-            font-size: 28px;
-            font-weight: bold;
+            width: 300px;
+            height: 190px;
+            font-size: 22px;
+            font-weight: 600;
             border-radius: 20px;
             border: none;
             cursor: pointer;
             transition: 0.3s;
-        }
 
-        .ats-btn {
-            background: #00ffc3;
-            color: black;
-        }
-
-        .job-btn {
-            background: #ff9800;
-            color: black;
+            /* Glass theme */
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            color: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         }
 
         .option-btn:hover {
-            transform: scale(1.1);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        /* Theme accents */
+        .ats-btn {
+            border: 2px solid #00c6ff;
+            color: #00c6ff;
+        }
+
+        .job-btn {
+            border: 2px solid #0072ff;
+            color: #0072ff;
+        }
+
+        .resume-btn {
+            border: 2px solid #00ffcc;
+            color: #00ffcc;
+        }
+
+        .option-btn span {
+            display: block;
+            font-size: 15px;
+            opacity: 0.7;
+            margin-top: 10px;
+            color: #ccc;
         }
     </style>
 </head>
 
 <body>
 
-<div class="option-container">
+<div class="container" style="
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+">
 
-    <!-- ATS BUTTON -->
-    <a href="/analyze">
-        <button class="option-btn ats-btn">
-            Check ATS Score
-        </button>
-    </a>
+    <!-- HEADER -->
+    
 
-    <!-- JOB BUTTON -->
-    <a href="/jobs">
-        <button class="option-btn job-btn">
-            Fetch Your Jobs
-        </button>
-    </a>
+    <!-- OPTIONS -->
+    <div class="option-container">
+
+        <!-- ATS -->
+        <a href="/analyze">
+            <button class="option-btn ats-btn">
+                Check ATS Score
+                <span>Analyze your resume instantly</span>
+            </button>
+        </a>
+
+        <!-- JOBS -->
+        <a href="/jobs">
+            <button class="option-btn job-btn">
+                Fetch Your Jobs
+                <span>Find jobs matching your skills</span>
+            </button>
+        </a>
+
+        <!-- RESUME BUILDER -->
+        <a href="/resume">
+            <button class="option-btn resume-btn">
+                Create Your Resume
+                <span>Build a professional resume easily</span>
+            </button>
+        </a>
+
+    </div>
 
 </div>
 

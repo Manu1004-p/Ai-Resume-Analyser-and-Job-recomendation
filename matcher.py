@@ -14,7 +14,7 @@ def preprocess_text(text):
 
 
 # -------------------------------
-# ✅ EDUCATION (UPDATED)
+# ✅ EDUCATION
 # -------------------------------
 
 EDUCATION_MAP = {
@@ -23,7 +23,7 @@ EDUCATION_MAP = {
     "btech": ["btech", "b.e", "be", "bachelor of engineering"],
     "mca": ["mca", "master of computer applications"],
 
-    # ✅ NON-IT EDUCATION
+    # NON-IT
     "bcom": ["bcom", "bachelor of commerce"],
     "bba": ["bba", "bachelor of business administration"],
     "ba": ["ba", "bachelor of arts"],
@@ -53,12 +53,12 @@ def match_education(resume_text, job_desc):
 
 
 # -------------------------------
-# ✅ SKILL SYNONYMS (IT + NON-IT)
+# ✅ SKILL SYNONYMS
 # -------------------------------
 
 SKILL_SYNONYMS = {
 
-    # -------- IT SKILLS --------
+    # IT
     "python": ["python"],
     "java": ["java"],
     "javascript": ["javascript", "js"],
@@ -72,12 +72,12 @@ SKILL_SYNONYMS = {
     "react": ["react"],
     "nodejs": ["node", "nodejs"],
 
-    # -------- TOOLS --------
+    # Tools
     "excel": ["excel", "ms excel"],
     "power bi": ["power bi"],
     "tableau": ["tableau"],
 
-    # -------- NON-IT SKILLS --------
+    # Soft skills
     "communication": ["communication", "verbal communication"],
     "teamwork": ["teamwork", "team player"],
     "leadership": ["leadership", "leading team"],
@@ -86,7 +86,7 @@ SKILL_SYNONYMS = {
     "critical thinking": ["critical thinking"],
     "decision making": ["decision making"],
 
-    # -------- BUSINESS --------
+    # Business
     "marketing": ["marketing"],
     "sales": ["sales"],
     "customer service": ["customer service"],
@@ -102,15 +102,15 @@ SKILL_SYNONYMS = {
 
 def extract_skills(text):
     text = preprocess_text(text)
-    found_skills = []
+    found_skills = set()
 
     for skill, keywords in SKILL_SYNONYMS.items():
         for word in keywords:
             if re.search(r'\b' + re.escape(word) + r'\b', text):
-                found_skills.append(skill)
+                found_skills.add(skill)
                 break
 
-    return list(set(found_skills))
+    return found_skills
 
 
 # -------------------------------
@@ -118,7 +118,7 @@ def extract_skills(text):
 # -------------------------------
 
 def expand_generic_skills(skills, text):
-    text = text.lower()
+    text = preprocess_text(text)
     expanded = set(skills)
 
     # IT generic
@@ -129,7 +129,7 @@ def expand_generic_skills(skills, text):
         expanded.update(["html", "css", "javascript"])
 
     if "database" in text:
-        expanded.update(["mysql"])
+        expanded.add("mysql")
 
     # NON-IT generic
     if "communication skills" in text:
@@ -141,7 +141,7 @@ def expand_generic_skills(skills, text):
     if "analytical skills" in text:
         expanded.add("problem solving")
 
-    return list(expanded)
+    return expanded
 
 
 # -------------------------------
@@ -155,12 +155,12 @@ IT_SKILLS = {
 
 
 def match_skills(resume_text, job_desc):
-    resume_skills = set(extract_skills(resume_text))
+    resume_skills = extract_skills(resume_text)
 
-    job_skills = set(extract_skills(job_desc))
-    job_skills = set(expand_generic_skills(job_skills, job_desc))
+    job_skills = extract_skills(job_desc)
+    job_skills = expand_generic_skills(job_skills, job_desc)
 
-    if len(job_skills) == 0:
+    if not job_skills:
         return 0
 
     score = 0
@@ -168,12 +168,7 @@ def match_skills(resume_text, job_desc):
 
     for skill in job_skills:
 
-        # ✅ Weighting
-        if skill in IT_SKILLS:
-            weight = 1.0
-        else:
-            weight = 0.5
-
+        weight = 1.0 if skill in IT_SKILLS else 0.5
         total += weight
 
         if skill in resume_skills:
@@ -191,18 +186,40 @@ def final_score(resume_text, job_desc):
     edu_score = match_education(resume_text, job_desc)
 
     final = (0.7 * skill_score) + (0.3 * edu_score)
-
     return round(final * 100, 2)
 
 
 # -------------------------------
-# ✅ SKILL GAP
+# ✅ MATCHED + MISSING SKILLS (FIXED)
 # -------------------------------
 
-def skill_gap(resume_text, job_desc):
-    resume_skills = set(extract_skills(resume_text))
+def get_skill_analysis(resume_text, job_desc):
+    resume_skills = extract_skills(resume_text)
 
-    job_skills = set(extract_skills(job_desc))
-    job_skills = set(expand_generic_skills(job_skills, job_desc))
+    job_skills = extract_skills(job_desc)
+    job_skills = expand_generic_skills(job_skills, job_desc)
 
-    return list(job_skills - resume_skills)
+    matched = resume_skills & job_skills
+    missing = job_skills - resume_skills
+
+    return {
+        "matched": sorted(list(matched)),
+        "missing": sorted(list(missing))
+    }
+
+
+# -------------------------------
+# ✅ MAIN RESULT FUNCTION (BEST PRACTICE)
+# -------------------------------
+
+def analyze_resume(resume_text, job_desc):
+    score = final_score(resume_text, job_desc)
+
+    skill_data = get_skill_analysis(resume_text, job_desc)
+
+    return {
+        "overall": score,
+        "status": "Excellent Match" if score >= 75 else "Good Match" if score >= 50 else "Needs Improvement",
+        "matched_skills": skill_data["matched"],
+        "missing_skills": skill_data["missing"]
+    }

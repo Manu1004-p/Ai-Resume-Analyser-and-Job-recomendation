@@ -3,6 +3,15 @@ import requests
 APP_ID = "d4a3d41c"
 APP_KEY = "37368d54e6eb05a746645e4a2ff72d86"
 
+
+# ✅ Convert company name → domain
+def generate_domain(company_name):
+    if not company_name:
+        return "google.com"
+    company_name = company_name.lower().replace(" ", "")
+    return company_name + ".com"
+
+
 def fetch_jobs_from_resume(resume_text):
 
     common_skills = [
@@ -16,7 +25,7 @@ def fetch_jobs_from_resume(resume_text):
     detected_skills = []
 
     for skill in common_skills:
-        if skill in resume_text:
+        if skill in resume_text.lower():
             detected_skills.append(skill)
 
     query = " ".join(detected_skills[:5]) if detected_skills else "jobs"
@@ -36,12 +45,15 @@ def fetch_jobs_from_resume(resume_text):
     jobs = []
 
     for job in data.get("results", []):
+
+        company_name = job.get("company", {}).get("display_name")
+
         jobs.append({
             "title": job.get("title"),
-            "company": job.get("company", {}).get("display_name"),
+            "company": company_name,
             "location": job.get("location", {}).get("display_name"),
-            "link": job.get("redirect_url")
+            "link": job.get("redirect_url"),
+            "domain": generate_domain(company_name)  # ✅ FIXED
         })
 
     return jobs, detected_skills
-
